@@ -38,7 +38,42 @@ class ActionGroupExecutor(AWSProperty):
     """
 
     props: PropsDictType = {
-        "Lambda": (str, True),
+        "CustomControl": (str, False),
+        "Lambda": (str, False),
+    }
+
+
+class ParameterDetail(AWSProperty):
+    """
+    `ParameterDetail <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-agent-parameterdetail.html>`__
+    """
+
+    props: PropsDictType = {
+        "Description": (str, False),
+        "Required": (boolean, False),
+        "Type": (str, True),
+    }
+
+
+class Function(AWSProperty):
+    """
+    `Function <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-agent-function.html>`__
+    """
+
+    props: PropsDictType = {
+        "Description": (str, False),
+        "Name": (str, True),
+        "Parameters": (dict, False),
+    }
+
+
+class FunctionSchema(AWSProperty):
+    """
+    `FunctionSchema <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-agent-functionschema.html>`__
+    """
+
+    props: PropsDictType = {
+        "Functions": ([Function], True),
     }
 
 
@@ -53,6 +88,7 @@ class AgentActionGroup(AWSProperty):
         "ActionGroupState": (str, False),
         "ApiSchema": (APISchema, False),
         "Description": (str, False),
+        "FunctionSchema": (FunctionSchema, False),
         "ParentActionGroupSignature": (str, False),
         "SkipResourceInUseCheckOnDelete": (boolean, False),
     }
@@ -67,6 +103,17 @@ class AgentKnowledgeBase(AWSProperty):
         "Description": (str, True),
         "KnowledgeBaseId": (str, True),
         "KnowledgeBaseState": (str, False),
+    }
+
+
+class GuardrailConfiguration(AWSProperty):
+    """
+    `GuardrailConfiguration <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-bedrock-agent-guardrailconfiguration.html>`__
+    """
+
+    props: PropsDictType = {
+        "GuardrailIdentifier": (str, False),
+        "GuardrailVersion": (str, False),
     }
 
 
@@ -125,6 +172,7 @@ class Agent(AWSObject):
         "CustomerEncryptionKeyArn": (str, False),
         "Description": (str, False),
         "FoundationModel": (str, False),
+        "GuardrailConfiguration": (GuardrailConfiguration, False),
         "IdleSessionTTLInSeconds": (double, False),
         "Instruction": (str, False),
         "KnowledgeBases": ([AgentKnowledgeBase], False),
@@ -168,6 +216,7 @@ class S3DataSourceConfiguration(AWSProperty):
 
     props: PropsDictType = {
         "BucketArn": (str, True),
+        "BucketOwnerAccountId": (str, False),
         "InclusionPrefixes": ([str], False),
     }
 
@@ -233,6 +282,7 @@ class DataSource(AWSObject):
     resource_type = "AWS::Bedrock::DataSource"
 
     props: PropsDictType = {
+        "DataDeletionPolicy": (str, False),
         "DataSourceConfiguration": (DataSourceConfiguration, True),
         "Description": (str, False),
         "KnowledgeBaseId": (str, True),
@@ -371,6 +421,19 @@ class Guardrail(AWSObject):
         "Tags": (Tags, False),
         "TopicPolicyConfig": (TopicPolicyConfig, False),
         "WordPolicyConfig": (WordPolicyConfig, False),
+    }
+
+
+class GuardrailVersion(AWSObject):
+    """
+    `GuardrailVersion <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-bedrock-guardrailversion.html>`__
+    """
+
+    resource_type = "AWS::Bedrock::GuardrailVersion"
+
+    props: PropsDictType = {
+        "Description": (str, False),
+        "GuardrailIdentifier": (str, True),
     }
 
 

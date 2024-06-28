@@ -280,6 +280,7 @@ class CustomerGateway(AWSObject):
 
     props: PropsDictType = {
         "BgpAsn": (integer, False),
+        "BgpAsnExtended": (double, False),
         "CertificateArn": (str, False),
         "DeviceName": (str, False),
         "IpAddress": (str, True),
@@ -2660,7 +2661,7 @@ class TransitGatewayRoute(AWSObject):
 
     props: PropsDictType = {
         "Blackhole": (boolean, False),
-        "DestinationCidrBlock": (str, False),
+        "DestinationCidrBlock": (str, True),
         "TransitGatewayAttachmentId": (str, False),
         "TransitGatewayRouteTableId": (str, True),
     }
@@ -3273,6 +3274,17 @@ class SecurityGroupRule(AWSProperty):
         "SourceSecurityGroupName": (str, False),
         "SourceSecurityGroupOwnerId": (str, False),
         "ToPort": (validate_network_port, False),
+    }
+
+
+class State(AWSProperty):
+    """
+    `State <http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-state.html>`__
+    """
+
+    props: PropsDictType = {
+        "Code": (str, False),
+        "Name": (str, False),
     }
 
 
